@@ -32,7 +32,13 @@
 layout(num_views = NUM_VIEWS) in;
 #endif
 
-IO_LOCATION(0) out vec2 uv;
+#ifdef VANDALIZED
+#define OUT_LOCATION(l) layout(location = l)
+#else
+#define OUT_LOCATION(l) IO_LOCATION(l)
+#endif
+
+OUT_LOCATION(0) out vec2 uv;
 
 void main(void)
 {

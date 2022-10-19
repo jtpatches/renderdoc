@@ -453,9 +453,6 @@ void GLReplay::InitDebugData()
     }
   }
 
-  // used to combine with custom shaders.
-  DebugData.texDisplayVertexShader = CreateShader(eGL_VERTEX_SHADER, vs);
-
   for(int i = 0; i < 3; i++)
   {
     rdcstr defines = rdcstr("#define SHADER_BASETYPE ") + ToStr(i) + "\n";
@@ -502,6 +499,11 @@ void GLReplay::InitDebugData()
   DebugData.glslVersion = glslVersion;
 
   RDCLOG("GLSL version %d", glslVersion);
+
+  rdcstr vandalism = "#define VANDALIZED 1\n";
+  vs = GenerateGLSLShader(GetEmbeddedResource(glsl_blit_vert), shaderType, glslVersion, vandalism);
+  // used to combine with custom shaders.
+  DebugData.texDisplayVertexShader = CreateShader(eGL_VERTEX_SHADER, vs);
 
   vs = GenerateGLSLShader(GetEmbeddedResource(glsl_blit_vert), shaderType, glslBaseVer);
 
